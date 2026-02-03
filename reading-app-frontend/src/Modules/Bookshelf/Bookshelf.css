@@ -1,0 +1,9 @@
+
+.bookshelf {
+    display: flex;
+    align-self: center;
+    background-color: #2b0805;
+    border: 10px solid #631e08;
+    padding-top: 10px;
+    border-radius: 10px;
+}

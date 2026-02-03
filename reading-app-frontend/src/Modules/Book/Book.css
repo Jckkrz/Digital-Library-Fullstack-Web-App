@@ -1,0 +1,18 @@
+.book {
+    border: 1px solid black;
+    margin: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    border-radius: 3px;
+}
+
+.book-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 14px;
+    text-align: center;
+    padding: 2px;
+}
