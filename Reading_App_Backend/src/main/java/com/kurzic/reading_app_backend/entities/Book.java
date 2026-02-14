@@ -1,32 +1,34 @@
-package com.kurzic.reading_app_backend;
+package com.kurzic.reading_app_backend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-//@Entity
+@Entity
 public class Book {
 
-   // @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+   @Id //This is the primary key for a database
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
+    private String isbn;
 
     private String title;
     private String author;
-    private int pageCount;
+    private Integer pageCount;
 
-    public Book(int id, String title, String author, int pageCount) {
-        this.id = id;
+    public Book(){}
+
+    public Book(String title, String author, Integer pageCount) {
         this.title = title;
         this.author = author;
         this.pageCount = pageCount;
     }
 
-    public int getId() {
+
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,10 +46,10 @@ public class Book {
         this.author = author;
     }
 
-    public int getPageCount() {
+    public Integer getPageCount() {
         return pageCount;
     }
-    public void setPageCount(int pageCount) {
+    public void setPageCount(Integer pageCount) {
         this.pageCount = pageCount;
     }
 

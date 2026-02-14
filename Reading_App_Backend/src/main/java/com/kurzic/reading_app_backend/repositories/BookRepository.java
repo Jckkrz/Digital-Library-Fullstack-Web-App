@@ -1,6 +1,4 @@
-package com.kurzic.reading_app_backend;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+package com.kurzic.reading_app_backend.repositories;
 
 
 public class BookRepository {
