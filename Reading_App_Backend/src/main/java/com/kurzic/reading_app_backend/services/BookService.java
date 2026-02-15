@@ -1,46 +1,48 @@
 package com.kurzic.reading_app_backend.services;
 
 import com.kurzic.reading_app_backend.entities.Book;
+import com.kurzic.reading_app_backend.repositories.BookRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class BookService {
 
-    private final List<Book> books = new ArrayList<>();
+    private final BookRepository repo;
 
-    public BookService() {
 
-        books.add(new Book("1984", "George Orwell", 300));
+    public BookService(BookRepository repo) {
+        this.repo = repo;
     }
 
     public Book addBook(Book newBook){
-        books.add(newBook);
-        return newBook;
+        return repo.save(newBook);
     }
 
     public List<Book> getBooks(){
-        return books;
+        return repo.findAll();
     }
 
     public Book getBookById(Long id){
-        return books.stream().filter(book -> book.getId() == id).findFirst().orElse(null);
+        return repo.findById(id).orElse(null);
     }
 
-    public void updateBook(Book updatedBook) {
+    public Book updateBook(Long id, Book updatedBook) {
+        Book existing = repo.findById(id).orElse(null);
+        if (existing == null) return null;
 
-        Book bookToUpdate = getBookById(updatedBook.getId());
-        bookToUpdate.setTitle(updatedBook.getTitle());
-        bookToUpdate.setAuthor(updatedBook.getAuthor());
-        bookToUpdate.setPageCount(updatedBook.getPageCount());
+        existing.setTitle(updatedBook.getTitle());
+        existing.setAuthor(updatedBook.getAuthor());
+        existing.setPageCount(updatedBook.getPageCount());
+        existing.setIsbn(updatedBook.getIsbn());
 
+        return repo.save(existing);
     }
+
 
     public void deleteBookByID(Long id){
-        books.removeIf(book -> book.getId().equals(id));
+        repo.deleteById(id);
     }
 
 

@@ -1,9 +1,9 @@
 package com.kurzic.reading_app_backend.controllers;
 
+import jakarta.validation.Valid;
 import com.kurzic.reading_app_backend.services.BookService;
 import com.kurzic.reading_app_backend.entities.Book;
 import org.springframework.web.bind.annotation.*;
-import com.kurzic.reading_app_backend.entities.Book;
 
 import java.util.List;
 
@@ -28,12 +28,10 @@ public class BookController {
         return bookService.getBooks();
     }
 
-    @PutMapping
-    public String updateBook(@RequestBody Book newBook) {
-        bookService.updateBook(newBook);
-        return newBook.getTitle() + " added to your shelf.";
+    @PutMapping("/{id}")
+    public Book updateBook(@PathVariable Long id, @RequestBody Book newBook) {
+        return bookService.updateBook(id, newBook);
     }
-
 
     @DeleteMapping("/{id}")
     public String deleteBook(@PathVariable Long id) {
