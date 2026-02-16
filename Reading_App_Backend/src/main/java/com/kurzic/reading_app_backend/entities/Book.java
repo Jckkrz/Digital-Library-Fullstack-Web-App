@@ -2,6 +2,7 @@ package com.kurzic.reading_app_backend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -14,9 +15,9 @@ public class Book {
     @Column(unique = true)
     private String isbn;
 
-    @NotNull
+    @NotBlank
     private String title;
-    @NotNull
+    @NotBlank
     private String author;
 
     @NotNull

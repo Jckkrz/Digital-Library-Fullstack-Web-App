@@ -16,10 +16,12 @@ public class BookService {
         this.repo = repo;
     }
 
+    //Create
     public Book addBook(Book newBook){
         return repo.save(newBook);
     }
 
+    //Read
     public List<Book> getBooks(){
         return repo.findAll();
     }
@@ -28,6 +30,7 @@ public class BookService {
         return repo.findById(id).orElse(null);
     }
 
+    //Update
     public Book updateBook(Long id, Book updatedBook) {
         Book existing = repo.findById(id).orElse(null);
         if (existing == null) return null;
@@ -40,7 +43,7 @@ public class BookService {
         return repo.save(existing);
     }
 
-
+    //Delete
     public void deleteBookByID(Long id){
         repo.deleteById(id);
     }
