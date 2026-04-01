@@ -1,8 +1,9 @@
 package com.kurzic.reading_app_backend.controllers;
 
-import jakarta.validation.Valid;
+import com.kurzic.reading_app_backend.DTOs.BookRequestDTO;
+import com.kurzic.reading_app_backend.DTOs.BookResponseDTO;
 import com.kurzic.reading_app_backend.services.BookService;
-import com.kurzic.reading_app_backend.entities.Book;
+import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,25 +22,25 @@ public class BookController {
 
     //Create
     @PostMapping
-    public Book addBook(@Valid @RequestBody Book newBook) {
+    public BookResponseDTO addBook(@Valid @RequestBody BookRequestDTO newBook) {
         return bookService.addBook(newBook);
     }
 
     //Read
     @GetMapping
-    public List<Book> getAllBooks() {
+    public List<BookResponseDTO> getAllBooks() {
         return bookService.getBooks();
     }
 
     @GetMapping("/{id}")
-    public Book getBookById(@PathVariable Long id) {
+    public BookResponseDTO getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
     //Update
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @Valid @RequestBody Book newBook) {
-        return bookService.updateBook(id, newBook);
+    public BookResponseDTO updateBook(@PathVariable Long id, @Valid @RequestBody BookRequestDTO updatedBook) {
+        return bookService.updateBook(id, updatedBook);
     }
 
     //Delete
@@ -48,4 +49,3 @@ public class BookController {
         bookService.deleteBookByID(id);
     }
 }
-
