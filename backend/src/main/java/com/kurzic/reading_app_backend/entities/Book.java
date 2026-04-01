@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "Books")
 public class Book {
 
    @Id //This is the primary key for a database
@@ -15,12 +16,12 @@ public class Book {
     @Column(unique = true)
     private String isbn;
 
-    @NotBlank
+    @Column(nullable = false)
     private String title;
-    @NotBlank
+    @Column(nullable = false)
     private String author;
 
-    @NotNull
+    @Column(nullable = false)
     @Min(1)
     private Integer pageCount;
 
