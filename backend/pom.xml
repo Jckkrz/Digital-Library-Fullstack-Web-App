@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kurzic</groupId>
-    <artifactId>Reading_App_Backend</artifactId>
+    <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Reading_App_Backend</name>
     <description>Reading_App_Backend</description>
