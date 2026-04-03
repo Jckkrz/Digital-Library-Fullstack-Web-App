@@ -1,5 +1,6 @@
 package com.kurzic.reading_app_backend.entities;
 
+import com.kurzic.reading_app_backend.enums.ReadingStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -13,17 +14,17 @@ public class Book {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column
     private String isbn;
-
-    @Column(nullable = false)
+    @Column
     private String title;
-    @Column(nullable = false)
+    @Column
     private String author;
-
-    @Column(nullable = false)
-    @Min(1)
+    @Column
     private Integer pageCount;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ReadingStatus status;
 
     public Book(){}
 
@@ -64,6 +65,13 @@ public class Book {
     }
     public void setPageCount(Integer pageCount) {
         this.pageCount = pageCount;
+    }
+
+    public ReadingStatus getStatus() {
+        return status;
+    }
+    public void setStatus(ReadingStatus status) {
+        this.status = status;
     }
 
 

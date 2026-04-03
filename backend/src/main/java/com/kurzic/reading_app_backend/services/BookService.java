@@ -1,6 +1,9 @@
 package com.kurzic.reading_app_backend.services;
 
+import com.kurzic.reading_app_backend.DTOs.BookRequestDTO;
+import com.kurzic.reading_app_backend.DTOs.BookResponseDTO;
 import com.kurzic.reading_app_backend.entities.Book;
+import com.kurzic.reading_app_backend.exceptions.BookNotFoundException;
 import com.kurzic.reading_app_backend.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,42 +14,65 @@ public class BookService {
 
     private final BookRepository repo;
 
-
     public BookService(BookRepository repo) {
         this.repo = repo;
     }
 
-    //Create
-    public Book addBook(Book newBook){
-        return repo.save(newBook);
+    public BookResponseDTO addBook(BookRequestDTO newBook) {
+        Book book = new Book();
+        book.setTitle(newBook.title());
+        book.setAuthor(newBook.author());
+        book.setIsbn(newBook.isbn());
+        book.setPageCount(newBook.pageCount());
+        book.setStatus(newBook.status());
+
+        Book savedBook = repo.save(book);
+        return mapToResponse(savedBook);
     }
 
-    //Read
-    public List<Book> getBooks(){
-        return repo.findAll();
+    public List<BookResponseDTO> getBooks() {
+        return repo.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
-    public Book getBookById(Long id){
-        return repo.findById(id).orElse(null);
+    public BookResponseDTO getBookById(Long id) {
+        Book book = repo.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
+
+        return mapToResponse(book);
     }
 
-    //Update
-    public Book updateBook(Long id, Book updatedBook) {
-        Book existing = repo.findById(id).orElse(null);
-        if (existing == null) return null;
+    public BookResponseDTO updateBook(Long id, BookRequestDTO updatedBook) {
+        Book book = repo.findById(id)
+                .orElseThrow(() -> new  BookNotFoundException(id));
 
-        existing.setTitle(updatedBook.getTitle());
-        existing.setAuthor(updatedBook.getAuthor());
-        existing.setPageCount(updatedBook.getPageCount());
-        existing.setIsbn(updatedBook.getIsbn());
+        book.setTitle(updatedBook.title());
+        book.setAuthor(updatedBook.author());
+        book.setPageCount(updatedBook.pageCount());
+        book.setIsbn(updatedBook.isbn());
+        book.setStatus(updatedBook.status());
 
-        return repo.save(existing);
+        Book savedBook = repo.save(book);
+        return mapToResponse(savedBook);
     }
 
-    //Delete
-    public void deleteBookByID(Long id){
+    public void deleteBookByID(Long id) {
+        if (!repo.existsById(id)) {
+            throw new BookNotFoundException(id);
+        }
         repo.deleteById(id);
     }
 
-
+    private BookResponseDTO mapToResponse(Book book) {
+        return new BookResponseDTO(
+                book.getId(),
+                book.getTitle(),
+                book.getAuthor(),
+                book.getIsbn(),
+                book.getPageCount(),
+                book.getStatus()
+        );
+    }
 }
