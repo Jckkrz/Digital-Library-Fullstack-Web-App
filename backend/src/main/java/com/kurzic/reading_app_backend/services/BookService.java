@@ -19,13 +19,13 @@ public class BookService {
     }
 
     public BookResponseDTO addBook(BookRequestDTO newBook) {
-        Book book = new Book();
-        book.setTitle(newBook.title());
-        book.setAuthor(newBook.author());
-        book.setIsbn(newBook.isbn());
-        book.setPageCount(newBook.pageCount());
-        book.setStatus(newBook.status());
-
+        Book book = new Book(
+                newBook.title(),
+                newBook.author(),
+                newBook.isbn(),
+                newBook.pageCount(),
+                newBook.status()
+        );
         Book savedBook = repo.save(book);
         return mapToResponse(savedBook);
     }
