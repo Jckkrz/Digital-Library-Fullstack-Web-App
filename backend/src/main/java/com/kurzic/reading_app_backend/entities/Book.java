@@ -2,9 +2,6 @@ package com.kurzic.reading_app_backend.entities;
 
 import com.kurzic.reading_app_backend.enums.ReadingStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Books")
@@ -28,10 +25,12 @@ public class Book {
 
     public Book(){}
 
-    public Book(String title, String author, Integer pageCount) {
+    public Book(String title, String author, String isbn, Integer pageCount,  ReadingStatus status) {
         this.title = title;
         this.author = author;
+        this.isbn = isbn;
         this.pageCount = pageCount;
+        this.status = status;
     }
 
     public String getIsbn() {
