@@ -6,6 +6,8 @@ import com.kurzic.reading_app_backend.DTOs.BookSearchResultDTO;
 import com.kurzic.reading_app_backend.services.BookService;
 import com.kurzic.reading_app_backend.services.OpenLibraryService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,31 +28,34 @@ public class BookController {
 
     //Create
     @PostMapping
-    public BookResponseDTO addBook(@Valid @RequestBody BookRequestDTO newBook) {
-        return bookService.addBook(newBook);
+    public ResponseEntity<BookResponseDTO> addBook(@Valid @RequestBody BookRequestDTO newBook) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(bookService.addBook(newBook));
     }
 
     //Read
     @GetMapping
-    public List<BookResponseDTO> getAllBooks() {
-        return bookService.getBooks();
-    }
+    public ResponseEntity<List<BookResponseDTO>> getAllBooks() {return ResponseEntity.ok(bookService.getBooks());}
 
     @GetMapping("/{id}")
-    public BookResponseDTO getBookById(@PathVariable Long id) {
-        return bookService.getBookById(id);
+    public ResponseEntity<BookResponseDTO> getBookById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(bookService.getBookById(id));
     }
 
     //Update
     @PutMapping("/{id}")
-    public BookResponseDTO updateBook(@PathVariable Long id, @Valid @RequestBody BookRequestDTO updatedBook) {
-        return bookService.updateBook(id, updatedBook);
+    public ResponseEntity<BookResponseDTO> updateBook(@PathVariable Long id, @Valid @RequestBody BookRequestDTO updatedBook) {
+        return ResponseEntity.ok(bookService.updateBook(id, updatedBook));
     }
 
     //Delete
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         bookService.deleteBookByID(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/search")
